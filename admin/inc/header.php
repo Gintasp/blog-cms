@@ -3,6 +3,13 @@ include "../inc/db.php";
 include "functions.php";
 
 ob_start();
+session_start();
+
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] !== 'admin') {
+        header("Location: ../index.php");
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

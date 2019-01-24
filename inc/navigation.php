@@ -1,4 +1,7 @@
-<?php include 'db.php'; ?>
+<?php
+include 'db.php';
+session_start();
+?>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -13,7 +16,6 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-
                 <?php
                 $query = 'SELECT * FROM category';
                 $select_all_categories_query = mysqli_query($connection, $query);
@@ -23,10 +25,16 @@
                     <li>
                         <a href="#"><?php echo $title; ?></a>
                     </li>
-                <?php } ?>
-                <li>
-                    <a href="admin">Admin</a>
-                </li>
+                <?php }
+                if (isset($_SESSION['username'])) {
+                    if ($_SESSION['role'] === 'admin') {
+                        ?>
+                        <li>
+                            <a href="admin/index.php">Admin</a>
+                        </li>
+                    <?php }
+                } ?>
+
             </ul>
         </div>
     </div>
