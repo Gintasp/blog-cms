@@ -28,7 +28,7 @@ include 'inc/navigation.php';
                 <img class="img-responsive" src="images/<?php echo $row['image']; ?>" alt="">
                 <hr>
                 <p><?php echo substr($row['content'], 0, 150); ?></p>
-                <a class="btn btn-primary" href="#">Read More <span
+                <a class="btn btn-primary" href="post.php?p_id=<?php echo $row['id']; ?>">Read More <span
                             class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
