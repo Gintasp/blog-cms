@@ -29,6 +29,7 @@ if ($username === $db_username && $password === $db_password) {
     $_SESSION['firstname'] = $db_firstname;
     $_SESSION['lastname'] = $db_lastname;
     $_SESSION['role'] = $db_role;
+    $_SESSION['user_id'] = $db_id;
     header("Location: ../admin/index.php");
 } else {
     header("Location: ../index.php");
