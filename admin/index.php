@@ -18,6 +18,8 @@ include 'inc/header.php';
                         Welcome to Admin dashboard,
                         <small><?php echo $_SESSION['firstname']; ?></small>
                     </h1>
+
+                    <?php include "inc/widgets.php"; ?>
                 </div>
             </div>
             <!-- /.row -->
