@@ -25,7 +25,9 @@ include 'inc/navigation.php';
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['date']; ?></p>
                 <hr>
-                <img class="img-responsive" src="images/<?php echo $row['image']; ?>" alt="">
+                <a href="post.php?p_id=<?php echo $row['id']; ?>">
+                    <img class="img-responsive" src="images/<?php echo $row['image']; ?>" alt="">
+                </a>
                 <hr>
                 <p><?php echo substr($row['content'], 0, 150); ?></p>
                 <a class="btn btn-primary" href="post.php?p_id=<?php echo $row['id']; ?>">Read More <span
