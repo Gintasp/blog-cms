@@ -45,8 +45,8 @@ if (isset($_POST['add_post'])) {
     <div class="form-group">
         <label for="status">Post Status</label>
         <select class="form-control" name="status" id="status">
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
+            <option value="Draft">Draft</option>
+            <option value="Published">Published</option>
         </select>
     </div>
 
