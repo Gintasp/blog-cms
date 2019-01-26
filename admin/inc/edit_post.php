@@ -57,11 +57,11 @@ if (isset($_POST['update_post'])) {
     <div class="form-group">
         <label for="status">Post Status</label>
         <select class="form-control" name="status" id="status">
-            <option value="Draft" <?php if ($post['status'] === strtolower('draft')) {
+            <option value="Draft" <?php if (strtolower($post['status']) === 'draft') {
                 echo 'selected';
             } ?>>Draft
             </option>
-            <option value="Published" <?php if ($post['status'] === strtolower('published')) {
+            <option value="Published" <?php if (strtolower($post['status']) === 'published') {
                 echo 'selected';
             } ?>>
                 Published
