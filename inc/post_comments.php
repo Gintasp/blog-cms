@@ -3,15 +3,15 @@
     <h4>Leave a Comment:</h4>
     <form role="form" method="post" action="">
         <div class="form-group">
-            <input type="text" class="form-control" name="author" placeholder="Name">
+            <input id="author" type="text" class="form-control" name="author" placeholder="Name">
         </div>
         <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="Email">
+            <input id="email" type="email" class="form-control" name="email" placeholder="Email">
         </div>
         <div class="form-group">
-            <textarea class="form-control" name="comment" rows="3" placeholder="Comment..."></textarea>
+            <textarea id="comment" class="form-control" name="comment" rows="3" placeholder="Comment..."></textarea>
         </div>
-        <button type="submit" name="create_comment" class="btn btn-primary">Submit</button>
+        <button type="submit" name="create_comment" id="comment_submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
@@ -24,10 +24,12 @@ if (isset($_POST['create_comment'])) {
     $email = $_POST['email'];
     $comment = $_POST['comment'];
 
-    $query = mysqli_query($connection, "INSERT INTO comment(post_id, author, email, content, date, status) VALUES($post_id, '{$author}', '{$email}', '{$comment}', now(), 'unapproved')");
-    handle_query_error($query);
-    $query = mysqli_query($connection, "UPDATE post SET comment_count=comment_count+1 WHERE id=$post_id");
-    handle_query_error($query);
+    if (!empty($author) && !empty($email) && !empty($comment)) {
+        $query = mysqli_query($connection, "INSERT INTO comment(post_id, author, email, content, date, status) VALUES($post_id, '{$author}', '{$email}', '{$comment}', now(), 'unapproved')");
+        handle_query_error($query);
+        $query = mysqli_query($connection, "UPDATE post SET comment_count=comment_count+1 WHERE id=$post_id");
+        handle_query_error($query);
+    }
 }
 $all_comments = mysqli_query($connection, "SELECT * FROM comment WHERE post_id=$post_id AND status='approved' ORDER BY id DESC");
 handle_query_error($all_comments);
