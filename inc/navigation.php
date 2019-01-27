@@ -32,7 +32,16 @@ session_start();
                         <li>
                             <a href="admin/index.php">Admin</a>
                         </li>
-                    <?php }
+                        <?php
+
+                        if (isset($_GET['p_id'])) {
+                            ?>
+                            <li>
+                                <a href="admin/posts.php?source=edit_post&p_id=<?php echo $_GET['p_id']; ?>">Edit Post</a>
+                            </li>
+                        <?php }
+
+                    }
                 } ?>
 
             </ul>
