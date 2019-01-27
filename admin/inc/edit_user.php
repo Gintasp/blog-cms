@@ -9,6 +9,12 @@ if (isset($_POST['update_user'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $password = mysqli_real_escape_string($connection, $password);
+    $query = mysqli_query($connection, "SELECT rand_salt FROM user");
+    handle_query_error($query);
+    $salt = mysqli_fetch_array($query)['rand_salt'];
+    $password = crypt($password, $salt);
+
     move_uploaded_file($image_temp, "../images/users/$image");
 
     $query = "UPDATE user SET username='{$username}',firstname='{$firstname}',lastname='{$lastname}',role='{$role}', ";
