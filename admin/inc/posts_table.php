@@ -10,6 +10,7 @@
         <th>Tags</th>
         <th>Comments</th>
         <th>Date</th>
+        <th>View</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -35,6 +36,7 @@
             <td><?php echo $row['tags']; ?></td>
             <td><?php echo $row['comment_count']; ?></td>
             <td><?php echo $row['date']; ?></td>
+            <td><a href="../post.php?p_id=<?php echo $row['id']; ?>">View</a></td>
             <td><a href="posts.php?source=edit_post&p_id=<?php echo $row['id']; ?>">Edit</a></td>
             <td><a href="posts.php?delete=<?php echo $row['id']; ?>">Delete</a></td>
         </tr>
