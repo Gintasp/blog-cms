@@ -16,9 +16,14 @@ if (isset($_POST['add_post'])) {
     $query .= "VALUES('{$category}','{$title}','{$author}',now(),'{$image}','{$content}','{$tags}','{$status}')";
     $add_post_query = mysqli_query($connection, $query);
     handle_query_error($add_post_query);
-    header('Location: posts.php');
-}
-?>
+
+    $id = mysqli_insert_id($connection); ?>
+    <p class="alert alert-success" role="alert">Post successfully created.
+        <a href="../post.php?p_id=<?php echo $id; ?>">View new post</a>.
+    </p>
+
+<?php } ?>
+
 <form action="" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="title">Post Title</label>
