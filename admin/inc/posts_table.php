@@ -14,6 +14,24 @@ if (isset($_POST['apply']) && isset($_POST['bulk']) && isset($_POST['option_boxe
             case 'delete':
                 $query = mysqli_query($connection, "DELETE FROM post WHERE id=$box_id");
                 break;
+            case 'clone':
+                $query = mysqli_query($connection, "SELECT * FROM post WHERE id=$box_id");
+                handle_query_error($query);
+                $row = mysqli_fetch_assoc($query);
+                $cat_id = $row['category_id'];
+                $title = $row['title'];
+                $author = $row['author'];
+                $date = $row['date'];
+                $image = $row['image'];
+                $content = $row['content'];
+                $tags = $row['tags'];
+                $comment_count = $row['comment_count'];
+                $status = $row['status'];
+
+                $insert_query = "INSERT INTO post(category_id,title,author,date,image,content,tags,comment_count,status)";
+                $insert_query .= " VALUES($cat_id,'{$title}','{$author}','{$date}','{$image}','{$content}','{$tags}',$comment_count,'{$status}')";
+                $query = mysqli_query($connection, $insert_query);
+                break;
         }
         handle_query_error($query);
     }
@@ -27,6 +45,7 @@ if (isset($_POST['apply']) && isset($_POST['bulk']) && isset($_POST['option_boxe
                 <select class="form-control" name="bulk" id="options">
                     <option value="">Select Option</option>
                     <option value="publish">Publish</option>
+                    <option value="clone">Clone</option>
                     <option value="draft">Draft</option>
                     <option value="delete">Delete</option>
                 </select>
@@ -60,7 +79,8 @@ if (isset($_POST['apply']) && isset($_POST['bulk']) && isset($_POST['option_boxe
             while ($row = mysqli_fetch_assoc($query)) {
                 ?>
                 <tr>
-                    <td><input class="option-box" type="checkbox" value="<?php echo $row['id']; ?>" name="option_boxes[]"></td>
+                    <td><input class="option-box" type="checkbox" value="<?php echo $row['id']; ?>"
+                               name="option_boxes[]"></td>
                     <td><?php echo $row['id'] ?></td>
                     <td><?php echo $row['author'] ?></td>
                     <td><?php echo $row['title'] ?></td>
