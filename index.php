@@ -21,7 +21,8 @@ include 'inc/navigation.php';
                     <a href="post.php?p_id=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $row['author']; ?></a>
+                    by
+                    <a href="author_posts.php?author=<?php echo $row['author']; ?>"><?php echo $row['author']; ?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['date']; ?></p>
                 <hr>
