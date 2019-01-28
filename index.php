@@ -13,7 +13,24 @@ include 'inc/navigation.php';
             </h1>
 
             <?php
-            $query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='published' ORDER BY date DESC");
+            $page = 1;
+            if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+            }
+
+            if ($page == 1) {
+                $page1 = 0;
+            } else {
+                $page1 = ($page * 5) - 5;
+            }
+
+            $query = mysqli_query($connection, "SELECT * FROM post");
+            handle_query_error($query);
+            $post_count = mysqli_num_rows($query);
+
+            $post_count = ceil($post_count / 5);
+
+            $query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='published' ORDER BY date DESC LIMIT $page1,5");
             handle_query_error($query);
 
             while ($row = mysqli_fetch_assoc($query)) { ?>
@@ -41,6 +58,17 @@ include 'inc/navigation.php';
                 <li class="previous">
                     <a href="#">&larr; Older</a>
                 </li>
+                <?php
+                for ($i = 1; $i <= $post_count; $i++) {
+                    if ($i == $page) {
+                        ?>
+                        <li><a class="active" href="index.php?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                    <?php } else {
+                        ?>
+                        <li><a href="index.php?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                        <?php
+                    }
+                } ?>
                 <li class="next">
                     <a href="#">Newer &rarr;</a>
                 </li>
