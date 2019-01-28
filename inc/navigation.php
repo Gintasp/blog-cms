@@ -20,10 +20,9 @@ session_start();
                 $query = 'SELECT * FROM category';
                 $select_all_categories_query = mysqli_query($connection, $query);
 
-                while ($row = mysqli_fetch_assoc($select_all_categories_query)) {
-                    $title = $row['title']; ?>
+                while ($row = mysqli_fetch_assoc($select_all_categories_query)) { ?>
                     <li>
-                        <a href="#"><?php echo $title; ?></a>
+                        <a href="category.php?category=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a>
                     </li>
                 <?php }
                 if (isset($_SESSION['username'])) {
@@ -37,7 +36,8 @@ session_start();
                         if (isset($_GET['p_id'])) {
                             ?>
                             <li>
-                                <a href="admin/posts.php?source=edit_post&p_id=<?php echo $_GET['p_id']; ?>">Edit Post</a>
+                                <a href="admin/posts.php?source=edit_post&p_id=<?php echo $_GET['p_id']; ?>">Edit
+                                    Post</a>
                             </li>
                         <?php }
 
