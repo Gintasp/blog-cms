@@ -44,7 +44,18 @@ if (isset($_POST['add_post'])) {
 
     <div class="form-group">
         <label for="author">Post Author</label>
-        <input type="text" class="form-control" name="author" id="author">
+        <select name="author" id="author" class="form-control">
+            <option value="">Select User</option>
+            <?php
+            $user_query = mysqli_query($connection, "SELECT * FROM user");
+            handle_query_error($user_query);
+            while ($user_row = mysqli_fetch_assoc($user_query)) {
+                ?>
+                <option value="<?php echo $user_row['username']; ?>"><?php echo $user_row['username']; ?></option>
+                <?php
+            }
+            ?>
+        </select>
     </div>
 
     <div class="form-group">
