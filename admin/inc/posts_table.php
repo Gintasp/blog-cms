@@ -23,7 +23,7 @@ if (isset($_POST['apply']) && isset($_POST['bulk']) && isset($_POST['option_boxe
                 $author = $row['author'];
                 $date = $row['date'];
                 $image = $row['image'];
-                $content = $row['content'];
+                $content = mysqli_real_escape_string($connection, $row['content']);
                 $tags = $row['tags'];
                 $comment_count = $row['comment_count'];
                 $status = $row['status'];
@@ -92,7 +92,9 @@ if (isset($_POST['apply']) && isset($_POST['bulk']) && isset($_POST['option_boxe
                     <td><?php echo $row['status']; ?></td>
                     <td><img style="width: 100px" src="../images/<?php echo $row['image']; ?>"></td>
                     <td><?php echo $row['tags']; ?></td>
-                    <td><?php echo $row['comment_count']; ?></td>
+                    <td>
+                        <a href="comments.php?source=post_comments&post_id=<?php echo $row['id']; ?>"><?php echo $row['comment_count']; ?></a>
+                    </td>
                     <td><?php echo $row['date']; ?></td>
                     <td><a href="../post.php?p_id=<?php echo $row['id']; ?>">View</a></td>
                     <td><a href="posts.php?source=edit_post&p_id=<?php echo $row['id']; ?>">Edit</a></td>

@@ -25,11 +25,8 @@ include "inc/header.php";
                     }
 
                     switch ($source) {
-                        case 'add_post':
-                            include "inc/add_post.php";
-                            break;
-                        case 'edit_post':
-                            include "inc/edit_post.php";
+                        case 'post_comments':
+                            include "inc/post_comments_table.php";
                             break;
                         default:
                             include "inc/comments_table.php";
