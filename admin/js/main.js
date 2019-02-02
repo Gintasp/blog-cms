@@ -16,4 +16,14 @@ $(document).ready(function () {
             });
         }
     });
+
+    function loadUsersOnline() {
+        $.get("inc/functions.php?online=result", function (data) {
+            $('.online').text(data);
+        });
+    }
+
+    setInterval(function () {
+        loadUsersOnline();
+    }, 500);
 });

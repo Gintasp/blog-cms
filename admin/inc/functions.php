@@ -52,3 +52,34 @@ function handle_query_error($query)
         die('Query failed. ' . mysqli_error($connection));
     }
 }
+
+function users_online()
+{
+    if (isset($_GET['online'])) {
+        global $connection;
+        if (!$connection) {
+            session_start();
+            include '../../inc/db.php';
+
+            $session = session_id();
+            $time = time();
+            $time_out = $time - 60;
+            $query = mysqli_query($connection, "SELECT * FROM online WHERE session='$session'");
+            handle_query_error($query);
+            $count_user = mysqli_num_rows($query);
+
+            if ($count_user == NULL) {
+                mysqli_query($connection, "INSERT INTO online(session,time) VALUES('{$session}','{$time}')");
+            } else {
+                mysqli_query($connection, "UPDATE online SET time='$time' WHERE session='$session'");
+            }
+
+            $query = mysqli_query($connection, "SELECT * FROM online WHERE time>'$time_out'");
+            handle_query_error($query);
+
+            echo $count_user = mysqli_num_rows($query);
+        }
+    }
+}
+
+users_online();
