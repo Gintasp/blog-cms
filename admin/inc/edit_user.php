@@ -40,6 +40,8 @@ if (isset($_GET['u_id'])) {
         $role_old = $row['role'];
         $email_old = $row['email'];
     }
+} else {
+    header("Location: index.php");
 }
 ?>
 <form action="" method="post" enctype="multipart/form-data">
