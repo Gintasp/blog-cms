@@ -7,20 +7,23 @@ if (isset($_POST['update_user'])) {
     $lastname = $_POST['lastname'];
     $role = $_POST['role'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $password = mysqli_real_escape_string($connection, $password);
-    $query = mysqli_query($connection, "SELECT rand_salt FROM user");
-    handle_query_error($query);
-    $salt = mysqli_fetch_array($query)['rand_salt'];
-    $password = crypt($password, $salt);
 
     move_uploaded_file($image_temp, "../images/users/$image");
 
     $query = "UPDATE user SET username='{$username}',firstname='{$firstname}',lastname='{$lastname}',role='{$role}', ";
-    $query .= "email='{$email}',password='{$password}',image='{$image}'";
+    $query .= "email='{$email}',image='{$image}' WHERE id={$_GET['u_id']}";
     $edit_user = mysqli_query($connection, $query);
     handle_query_error($edit_user);
+
+    if (!empty($_POST['password'])) {
+        $password = $_POST['password'];
+        $password = mysqli_real_escape_string($connection, $password);
+        $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+
+        $query = mysqli_query($connection, "UPDATE user SET password='{$password}' WHERE id={$_GET['u_id']}");
+        handle_query_error($query);
+    }
+
     header('Location: users.php');
 }
 
@@ -36,7 +39,6 @@ if (isset($_GET['u_id'])) {
         $lastname_old = $row['lastname'];
         $role_old = $row['role'];
         $email_old = $row['email'];
-        $password_old = $row['password'];
     }
 }
 ?>
@@ -76,7 +78,7 @@ if (isset($_GET['u_id'])) {
 
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" id="password" value="<?php echo $password_old; ?>">
+        <input type="password" class="form-control" name="password" id="password">
     </div>
 
     <div class="form-group">

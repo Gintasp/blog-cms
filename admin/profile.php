@@ -24,12 +24,21 @@ include "inc/header.php";
                         $firstname = $_POST['firstname'];
                         $lastname = $_POST['lastname'];
                         $email = $_POST['email'];
-                        $password = $_POST['password'];
 
                         $query = "UPDATE user SET username='{$username}',firstname='{$firstname}',lastname='{$lastname}', ";
-                        $query .= "email='{$email}',password='{$password}' WHERE id={$_SESSION['user_id']}";
+                        $query .= "email='{$email}' WHERE id={$_SESSION['user_id']}";
                         $edit_profile = mysqli_query($connection, $query);
                         handle_query_error($edit_profile);
+
+                        if (!empty($_POST['password'])) {
+                            $password = $_POST['password'];
+                            $password = mysqli_real_escape_string($connection, $password);
+                            $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+
+                            $query = mysqli_query($connection, "UPDATE user SET password='$password' WHERE id={$_SESSION['user_id']}");
+                            handle_query_error($query);
+                        }
+
                         header('Location: index.php');
                     }
 
@@ -43,7 +52,6 @@ include "inc/header.php";
                             $firstname_old = $row['firstname'];
                             $lastname_old = $row['lastname'];
                             $email_old = $row['email'];
-                            $password_old = $row['password'];
                         }
                     }
                     ?>
@@ -74,8 +82,7 @@ include "inc/header.php";
 
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" id="password"
-                                   value="<?php echo $password_old; ?>">
+                            <input type="password" class="form-control" name="password" id="password">
                         </div>
 
                         <div class="form-group">
