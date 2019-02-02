@@ -33,9 +33,11 @@
 </table>
 
 <?php
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $query = mysqli_query($connection, "DELETE FROM user WHERE id=$id");
-    handle_query_error($query);
-    header('Location: users.php');
+if (isset($_GET['delete']) && isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'admin') {
+        $id = mysqli_real_escape_string($connection, $_GET['delete']);
+        $query = mysqli_query($connection, "DELETE FROM user WHERE id=$id");
+        handle_query_error($query);
+        header('Location: users.php');
+    }
 }
