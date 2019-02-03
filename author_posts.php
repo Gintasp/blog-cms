@@ -6,12 +6,6 @@ include 'inc/navigation.php';
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
-
             <?php
             if (isset($_GET['author'])) {
                 $author = escape($_GET['author']);
@@ -19,14 +13,15 @@ include 'inc/navigation.php';
 
             $query = mysqli_query($connection, "SELECT * FROM post WHERE author='{$author}'");
             handle_query_error($query);
+            ?>
+            <h1 class="page-header">
+                Posts by
+                <small><?php echo $author; ?></small>
+            </h1>
 
+            <?php
             while ($row = mysqli_fetch_assoc($query)) { ?>
-                <h2>
-                    <p><?php echo $row['title']; ?></p>
-                </h2>
-                <p class="lead">
-                    by <a href="author_posts.php?author=<?php echo $author; ?>"><?php echo $row['author']; ?></a>
-                </p>
+                <h2><a href="post.php?p_id=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a></h2>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['date']; ?></p>
                 <hr>
                 <img class="img-responsive" src="images/<?php echo $row['image']; ?>" alt="">
