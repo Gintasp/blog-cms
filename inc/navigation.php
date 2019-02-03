@@ -19,9 +19,20 @@ session_start();
                 <?php
                 $query = 'SELECT * FROM category';
                 $select_all_categories_query = mysqli_query($connection, $query);
-
-                while ($row = mysqli_fetch_assoc($select_all_categories_query)) { ?>
-                    <li>
+                while ($row = mysqli_fetch_assoc($select_all_categories_query)) {
+                    $category_active = '';
+                    $register_active = '';
+                    $contact_active = '';
+                    $url = basename($_SERVER['PHP_SELF']);
+                    if (isset($_GET['category']) && $_GET['category'] === $row['id']) {
+                        $category_active = 'active';
+                    } elseif ($url === 'register.php') {
+                        $register_active = 'active';
+                    } elseif ($url === 'contact.php') {
+                        $contact_active = 'active';
+                    }
+                    ?>
+                    <li class="<?php echo $category_active; ?>">
                         <a href="category.php?category=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a>
                     </li>
                 <?php }
@@ -43,7 +54,10 @@ session_start();
 
                     }
                 } ?>
-                <li>
+                <li class="<?php echo $register_active; ?>">
+                    <a href="register.php">Register</a>
+                </li>
+                <li class="<?php echo $contact_active; ?>">
                     <a href="contact.php">Contact Us</a>
                 </li>
             </ul>
