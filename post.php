@@ -6,12 +6,6 @@ include 'inc/navigation.php';
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
-
             <?php
             if (isset($_GET['p_id'])) {
                 $current_post_id = escape($_GET['p_id']);
@@ -29,11 +23,11 @@ include 'inc/navigation.php';
                     <p><?php echo $row['title']; ?></p>
                 </h2>
                 <p class="lead">
-                    by <a href="#"><?php echo $row['author']; ?></a>
+                    by <a href="author_posts.php?author=<?php echo $row['author']; ?>"><?php echo $row['author']; ?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['date']; ?></p>
-                <p style="margin-bottom: 0;font-size: 1.1em">Views <?php echo $row['views']; ?></p>
-                <hr>
+                <p style="margin: 0;font-size: 1.1em">Views: <?php echo $row['views']; ?></p>
+                <hr style="margin-top: 5px;margin-bottom: 10px">
                 <img class="img-responsive" src="images/<?php echo $row['image']; ?>" alt="">
                 <hr>
                 <p><?php echo $row['content']; ?></p>
