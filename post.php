@@ -14,8 +14,7 @@ include 'inc/navigation.php';
 
             <?php
             if (isset($_GET['p_id'])) {
-                $current_post_id = $_GET['p_id'];
-
+                $current_post_id = escape($_GET['p_id']);
                 $query = mysqli_query($connection, "UPDATE post SET views=views+1 WHERE id=$current_post_id");
                 handle_query_error($query);
             } else {

@@ -2,15 +2,15 @@
 if (isset($_POST['create_user'])) {
     $image = $_FILES['image']['name'];
     $image_temp = $_FILES['image']['tmp_name'];
-    $username = $_POST['username'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $role = $_POST['role'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $username = escape($_POST['username']);
+    $firstname = escape($_POST['firstname']);
+    $lastname = escape($_POST['lastname']);
+    $role = escape($_POST['role']);
+    $email = escape($_POST['email']);
+    $password = escape($_POST['password']);
 
     move_uploaded_file($image_temp, "../images/users/$image");
-    $password = mysqli_real_escape_string($connection, $password);
+    $password = escape($password);
     $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
 
     $query = "INSERT INTO user(username,firstname,lastname,role,email,password,image) ";

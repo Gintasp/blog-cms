@@ -55,9 +55,6 @@ include 'inc/navigation.php';
             <?php } ?>
 
             <ul class="pager">
-                <li class="previous">
-                    <a href="#">&larr; Older</a>
-                </li>
                 <?php
                 for ($i = 1; $i <= $post_count; $i++) {
                     if ($i == $page) {
@@ -69,9 +66,6 @@ include 'inc/navigation.php';
                         <?php
                     }
                 } ?>
-                <li class="next">
-                    <a href="#">Newer &rarr;</a>
-                </li>
             </ul>
         </div>
 

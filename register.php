@@ -10,9 +10,9 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
 
     if (!empty($username) && !empty($password) && !empty($email)) {
-        $username = mysqli_real_escape_string($connection, $username);
-        $password = mysqli_real_escape_string($connection, $password);
-        $email = mysqli_real_escape_string($connection, $email);
+        $username = escape($username);
+        $password = escape($password);
+        $email = escape($email);
 
         $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
 

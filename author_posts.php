@@ -14,7 +14,7 @@ include 'inc/navigation.php';
 
             <?php
             if (isset($_GET['author'])) {
-                $author = $_GET['author'];
+                $author = escape($_GET['author']);
             }
 
             $query = mysqli_query($connection, "SELECT * FROM post WHERE author='{$author}'");

@@ -17,11 +17,9 @@
         }
 
         if (isset($_POST['update'])) {
-            $title = $_POST['cat_title'];
+            $title = escape($_POST['cat_title']);
             $query = mysqli_query($connection, "UPDATE category SET title='{$title}' WHERE id={$edit_id}");
-            if (!$query) {
-                die("Query failed. " . mysqli_error($connection));
-            }
+            handle_query_error($query);
             header("Location: categories.php");
         }
         ?>

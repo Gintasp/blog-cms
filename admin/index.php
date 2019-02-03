@@ -16,7 +16,11 @@ include 'inc/header.php';
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Welcome to Admin dashboard,
-                        <small><?php echo $_SESSION['firstname']; ?></small>
+                        <small><?php if ($_SESSION['firstname']) {
+                                echo $_SESSION['firstname'];
+                            } else {
+                                echo $_SESSION['username'];
+                            } ?></small>
                     </h1>
 
                     <?php include "inc/widgets.php"; ?>
@@ -35,15 +39,15 @@ include 'inc/header.php';
 
 </div>
 <?php
-$query = mysqli_query($connection, "SELECT * FROM post WHERE status=LOWER('draft')");
+$query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='draft'");
 handle_query_error($query);
 $draft_count = mysqli_num_rows($query);
 
-$query = mysqli_query($connection, "SELECT * FROM comment WHERE status=LOWER('unapproved')");
+$query = mysqli_query($connection, "SELECT * FROM comment WHERE LOWER(status)='unapproved'");
 handle_query_error($query);
 $unapproved_count = mysqli_num_rows($query);
 
-$query = mysqli_query($connection, "SELECT * FROM user WHERE role=LOWER('user')");
+$query = mysqli_query($connection, "SELECT * FROM user WHERE LOWER(role)='user'");
 handle_query_error($query);
 $subscriber_count = mysqli_num_rows($query);
 ?>

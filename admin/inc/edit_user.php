@@ -2,11 +2,11 @@
 if (isset($_POST['update_user'])) {
     $image = $_FILES['image']['name'];
     $image_temp = $_FILES['image']['tmp_name'];
-    $username = $_POST['username'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $role = $_POST['role'];
-    $email = $_POST['email'];
+    $username = escape($_POST['username']);
+    $firstname = escape($_POST['firstname']);
+    $lastname = escape($_POST['lastname']);
+    $role = escape($_POST['role']);
+    $email = escape($_POST['email']);
 
     move_uploaded_file($image_temp, "../images/users/$image");
 
@@ -16,8 +16,7 @@ if (isset($_POST['update_user'])) {
     handle_query_error($edit_user);
 
     if (!empty($_POST['password'])) {
-        $password = $_POST['password'];
-        $password = mysqli_real_escape_string($connection, $password);
+        $password = escape($_POST['password']);
         $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
 
         $query = mysqli_query($connection, "UPDATE user SET password='{$password}' WHERE id={$_GET['u_id']}");

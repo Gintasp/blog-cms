@@ -14,7 +14,7 @@ include 'inc/navigation.php';
 
             <?php
             if (isset($_GET['category'])) {
-                $category_id = $_GET['category'];
+                $category_id = escape($_GET['category']);
             }
 
             $query = mysqli_query($connection, "SELECT * FROM post WHERE category_id={$category_id} ORDER BY date DESC");

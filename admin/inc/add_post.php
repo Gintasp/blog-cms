@@ -1,13 +1,13 @@
 <?php
 if (isset($_POST['add_post'])) {
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $category = $_POST['category'];
-    $status = $_POST['status'];
+    $title = escape($_POST['title']);
+    $author = escape($_POST['author']);
+    $category = escape($_POST['category']);
+    $status = escape($_POST['status']);
     $image = $_FILES['image']['name'];
     $image_temp = $_FILES['image']['tmp_name'];
-    $tags = $_POST['tags'];
-    $content = mysqli_real_escape_string($connection, $_POST['content']);
+    $tags = escape($_POST['tags']);
+    $content = escape($_POST['content']);
     $date = date('d-m-y');
 
     move_uploaded_file($image_temp, "../images/$image");

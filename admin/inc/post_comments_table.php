@@ -16,10 +16,9 @@
     <tbody>
     <?php
     if (isset($_GET['post_id'])) {
-        $post_id = $_GET['post_id'];
+        $post_id = escape($_GET['post_id']);
         $query = mysqli_query($connection, "SELECT * FROM comment WHERE post_id=$post_id");
         handle_query_error($query);
-
 
         while ($row = mysqli_fetch_assoc($query)) {
             ?>
@@ -37,8 +36,12 @@
                     <td><a href="../post.php?p_id=<?php echo $post_row['id']; ?>"><?php echo $title; ?></a></td>
                 <?php } ?>
                 <td><?php echo $row['date']; ?></td>
-                <td><a href="comments.php?source=post_comments&post_id=<?php echo $post_id; ?>&approve=<?php echo $row['id']; ?>">Approve</a></td>
-                <td><a href="comments.php?source=post_comments&post_id=<?php echo $post_id; ?>&unapprove=<?php echo $row['id']; ?>">Unapprove</a></td>
+                <td>
+                    <a href="comments.php?source=post_comments&post_id=<?php echo $post_id; ?>&approve=<?php echo $row['id']; ?>">Approve</a>
+                </td>
+                <td>
+                    <a href="comments.php?source=post_comments&post_id=<?php echo $post_id; ?>&unapprove=<?php echo $row['id']; ?>">Unapprove</a>
+                </td>
                 <td>
                     <a href="comments.php?source=post_comments&post_id=<?php echo $post_id; ?>&delete=<?php echo $row['id']; ?>">Delete</a>
                 </td>

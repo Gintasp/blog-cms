@@ -15,18 +15,14 @@ include 'inc/navigation.php';
             <?php
 
             if (isset($_POST['submit'])) {
-                $search = $_POST['search'];
-                $query = "SELECT * FROM post WHERE tags LIKE '%$search%'";
-                $select_query = mysqli_query($connection, $query);
+                $search = escape($_POST['search']);
+                $query = mysqli_query($connection, "SELECT * FROM post WHERE tags LIKE '%$search%'");
+                handle_query_error($query);
 
-                if (!$select_query) {
-                    die('FAILED.' . mysqli_error($connection));
-                }
-
-                if (!mysqli_num_rows($select_query)) { ?>
+                if (!mysqli_num_rows($query)) { ?>
                     <h1>No results.</h1>
                 <?php } else {
-                    while ($row = mysqli_fetch_assoc($select_query)) { ?>
+                    while ($row = mysqli_fetch_assoc($query)) { ?>
                         <h2>
                             <a href="#"><?php echo $row['title']; ?></a>
                         </h2>

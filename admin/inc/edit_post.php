@@ -1,21 +1,21 @@
 <?php
 
 if (isset($_GET['p_id'])) {
-    $post_id = $_GET['p_id'];
+    $post_id = escape($_GET['p_id']);
     $query = mysqli_query($connection, "SELECT * FROM post WHERE id=$post_id");
     handle_query_error($query);
     $post = mysqli_fetch_assoc($query);
 }
 
 if (isset($_POST['update_post'])) {
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $category = $_POST['category'];
-    $status = $_POST['status'];
+    $title = escape($_POST['title']);
+    $author = escape($_POST['author']);
+    $category = escape($_POST['category']);
+    $status = escape($_POST['status']);
     $image = $_FILES['image']['name'];
     $image_temp = $_FILES['image']['tmp_name'];
-    $tags = $_POST['tags'];
-    $content = mysqli_real_escape_string($connection, $_POST['content']);
+    $tags = escape($_POST['tags']);
+    $content = escape($_POST['content']);
 
     if (empty($image)) {
         $image = $post['image'];

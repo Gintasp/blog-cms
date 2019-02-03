@@ -23,7 +23,7 @@ if (isset($_POST['apply']) && isset($_POST['bulk']) && isset($_POST['option_boxe
                 $author = $row['author'];
                 $date = $row['date'];
                 $image = $row['image'];
-                $content = mysqli_real_escape_string($connection, $row['content']);
+                $content = $row['content'];
                 $tags = $row['tags'];
                 $comment_count = $row['comment_count'];
                 $status = $row['status'];

@@ -15,15 +15,19 @@ include "inc/header.php";
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Welcome to Admin dashboard,
-                        <small><?php echo $_SESSION['firstname']; ?></small>
+                        <small><?php if ($_SESSION['firstname']) {
+                                echo $_SESSION['firstname'];
+                            } else {
+                                echo $_SESSION['username'];
+                            } ?></small>
                     </h1>
 
                     <?php
                     if (isset($_POST['update_profile'])) {
-                        $username = $_POST['username'];
-                        $firstname = $_POST['firstname'];
-                        $lastname = $_POST['lastname'];
-                        $email = $_POST['email'];
+                        $username = escape($_POST['username']);
+                        $firstname = escape($_POST['firstname']);
+                        $lastname = escape($_POST['lastname']);
+                        $email = escape($_POST['email']);
 
                         $query = "UPDATE user SET username='{$username}',firstname='{$firstname}',lastname='{$lastname}', ";
                         $query .= "email='{$email}' WHERE id={$_SESSION['user_id']}";
@@ -31,8 +35,7 @@ include "inc/header.php";
                         handle_query_error($edit_profile);
 
                         if (!empty($_POST['password'])) {
-                            $password = $_POST['password'];
-                            $password = mysqli_real_escape_string($connection, $password);
+                            $password = escape($_POST['password']);
                             $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
 
                             $query = mysqli_query($connection, "UPDATE user SET password='$password' WHERE id={$_SESSION['user_id']}");
