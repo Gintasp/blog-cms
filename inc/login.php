@@ -3,8 +3,8 @@ include "db.php";
 session_start();
 
 if (isset($_POST['login'])) {
-    $username = escape($_POST['username']);
-    $password = escape($_POST['password']);
+    $username = mysqli_real_escape_string($connection, $_POST['username']);
+    $password = mysqli_real_escape_string($connection, $_POST['password']);
 }
 
 $query = mysqli_query($connection, "SELECT * FROM user WHERE username='{$username}'");
