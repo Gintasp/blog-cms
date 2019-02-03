@@ -15,12 +15,7 @@ include 'inc/header.php';
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Welcome to Admin dashboard,
-                        <small><?php if ($_SESSION['firstname']) {
-                                echo $_SESSION['firstname'];
-                            } else {
-                                echo $_SESSION['username'];
-                            } ?></small>
+                        Manage categories
                     </h1>
 
                     <div class="col-xs-6">
