@@ -111,5 +111,7 @@ if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $query = mysqli_query($connection, "DELETE FROM post WHERE id=$id");
     handle_query_error($query);
+    $query = mysqli_query($connection, "DELETE FROM comment WHERE post_id=$id");
+    handle_query_error($query);
     header('Location: posts.php');
 }
