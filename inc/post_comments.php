@@ -20,9 +20,9 @@
 <?php
 $post_id = $_GET['p_id'];
 if (isset($_POST['create_comment'])) {
-    $author = $_POST['author'];
-    $email = $_POST['email'];
-    $comment = $_POST['comment'];
+    $author = escape($_POST['author']);
+    $email = escape($_POST['email']);
+    $comment = escape($_POST['comment']);
 
     if (!empty($author) && !empty($email) && !empty($comment)) {
         $query = mysqli_query($connection, "INSERT INTO comment(post_id, author, email, content, date, status) VALUES($post_id, '{$author}', '{$email}', '{$comment}', now(), 'unapproved')");
