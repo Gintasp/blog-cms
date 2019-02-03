@@ -23,7 +23,12 @@ include 'inc/navigation.php';
                     $page1 = ($page * 5) - 5;
                 }
 
-                $query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='published'");
+                if (isset($_SESSION['username']) && $_SESSION['role'] === 'admin') {
+                    $query = mysqli_query($connection, "SELECT * FROM post");
+                } else {
+                    $query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='published'");
+                }
+
                 handle_query_error($query);
                 $post_count = mysqli_num_rows($query);
                 if ($post_count < 1) {
@@ -32,7 +37,12 @@ include 'inc/navigation.php';
                 <?php } else {
                     $post_count = ceil($post_count / 5);
 
-                    $query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='published' ORDER BY date DESC LIMIT $page1,5");
+                    if (isset($_SESSION['username']) && $_SESSION['role'] === 'admin') {
+                        $query = mysqli_query($connection, "SELECT * FROM post ORDER BY date DESC LIMIT $page1,5");
+                    } else {
+                        $query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='published' LIMIT $page1,5");
+                    }
+
                     handle_query_error($query);
 
                     while ($row = mysqli_fetch_assoc($query)) { ?>
