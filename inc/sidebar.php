@@ -13,19 +13,23 @@
         </form>
     </div>
 
-    <div class="well">
-        <h4>Log in</h4>
-        <form action="inc/login.php" method="post">
-            <div class="form-group">
-                <input placeholder="Username" type="text" name="username" class="form-control">
-            </div>
+    <?php
+    if (!isset($_SESSION['username'])) {
+        ?>
+        <div class="well">
+            <h4>Log in</h4>
+            <form action="inc/login.php" method="post">
+                <div class="form-group">
+                    <input placeholder="Username" type="text" name="username" class="form-control">
+                </div>
 
-            <div class="form-group">
-                <input placeholder="Password" type="password" name="password" class="form-control">
-            </div>
-            <button class="btn btn-default" type="submit" name="login">Log In</button>
-        </form>
-    </div>
+                <div class="form-group">
+                    <input placeholder="Password" type="password" name="password" class="form-control">
+                </div>
+                <button class="btn btn-default" type="submit" name="login">Log In</button>
+            </form>
+        </div>
+    <?php } ?>
 
     <div class="well">
         <h4>Blog Categories</h4>
@@ -42,6 +46,4 @@
             </div>
         </div>
     </div>
-
-    <?php include 'widget.php'; ?>
 </div>

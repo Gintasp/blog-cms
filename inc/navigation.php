@@ -53,10 +53,13 @@ session_start();
                         <?php }
 
                     }
-                } ?>
-                <li class="<?php echo $register_active; ?>">
-                    <a href="register.php">Register</a>
-                </li>
+                }
+                if (!isset($_SESSION['username'])) {
+                    ?>
+                    <li class="<?php echo $register_active; ?>">
+                        <a href="register.php">Register</a>
+                    </li>
+                <?php } ?>
                 <li class="<?php echo $contact_active; ?>">
                     <a href="contact.php">Contact Us</a>
                 </li>
