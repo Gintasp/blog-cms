@@ -96,6 +96,13 @@ function count_rows($table)
     $query = mysqli_query($connection, "SELECT * FROM " . $table);
     handle_query_error($query);
     $count = mysqli_num_rows($query);
-
     return $count;
+}
+
+function select_where($table, $field, $value)
+{
+    global $connection;
+    $query = mysqli_query($connection, "SELECT * FROM $table WHERE LOWER($field) = '$value'");
+    handle_query_error($query);
+    return $query;
 }

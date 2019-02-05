@@ -39,17 +39,9 @@ include 'inc/header.php';
 
 </div>
 <?php
-$query = mysqli_query($connection, "SELECT * FROM post WHERE LOWER(status)='draft'");
-handle_query_error($query);
-$draft_count = mysqli_num_rows($query);
-
-$query = mysqli_query($connection, "SELECT * FROM comment WHERE LOWER(status)='unapproved'");
-handle_query_error($query);
-$unapproved_count = mysqli_num_rows($query);
-
-$query = mysqli_query($connection, "SELECT * FROM user WHERE LOWER(role)='user'");
-handle_query_error($query);
-$subscriber_count = mysqli_num_rows($query);
+$draft_count = mysqli_num_rows(select_where('post', 'status', 'draft'));
+$unapproved_count = mysqli_num_rows(select_where('comment', 'status', 'unapproved'));
+$subscriber_count = mysqli_num_rows(select_where('user', 'role', 'user'));
 ?>
 <!-- /#wrapper -->
 <script type="text/javascript">
