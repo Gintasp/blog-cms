@@ -89,3 +89,13 @@ function escape($string)
     global $connection;
     return mysqli_real_escape_string($connection, $string);
 }
+
+function count_rows($table)
+{
+    global $connection;
+    $query = mysqli_query($connection, "SELECT * FROM " . $table);
+    handle_query_error($query);
+    $count = mysqli_num_rows($query);
+
+    return $count;
+}
