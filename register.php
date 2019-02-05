@@ -2,29 +2,45 @@
 include "inc/header.php";
 include "inc/navigation.php";
 
-$error_msg = '';
-
 if (isset($_POST['submit'])) {
     $username = trim(escape($_POST['username']));
     $password = trim(escape($_POST['password']));
     $email = trim(escape($_POST['email']));
 
-    if (!empty($username) && !empty($password) && !empty($email) && username_valid($username) && email_valid($email)) {
-        $username = escape($username);
-        $password = escape($password);
-        $email = escape($email);
+    $validation_errors = [
+        'username' => '',
+        'email' => '',
+        'password' => ''
+    ];
 
-        $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+    if (strlen($username) < 4) {
+        $validation_errors['username'] = 'Username has to be at least 4 characters long.';
+    }
+    if (!username_valid($username)) {
+        $validation_errors['username'] = 'Username already taken.';
+    }
+    if (!email_valid($email)) {
+        $validation_errors['email'] = 'Email already exists.';
+    }
+    if (strlen($password) < 6) {
+        $validation_errors['password'] = 'Password must be at least 6 characters long.';
+    }
 
-        $query = mysqli_query($connection, "INSERT INTO user(username,password,email,role) VALUES('{$username}','{$password}','{$email}','user')");
-        handle_query_error($query);
-        $error_msg = 'Registered successfully. You can now log in.';
-    } elseif (!username_valid($username)) {
-        $error_msg = 'Username already exists.';
-    } elseif (!email_valid($email)) {
-        $error_msg = 'Email already exists.';
-    } else {
-        $error_msg = 'Fields cannot be blank.';
+    if (!empty($username) && !empty($password) && !empty($email)) {
+        foreach ($validation_errors as $key => $value) {
+            if (empty($value)) {
+                unset($validation_errors[$key]);
+            }
+        }
+
+        if (empty($error)) {
+            $password_hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+
+            $query = mysqli_query($connection, "INSERT INTO user(username,password,email,role) VALUES('{$username}','{$password_hash}','{$email}','user')");
+            handle_query_error($query);
+
+            login_user($username, $password);
+        }
     }
 }
 ?>
@@ -37,22 +53,27 @@ if (isset($_POST['submit'])) {
                         <h1>Register</h1>
                         <form role="form" action="" method="post" id="login-form"
                               autocomplete="off">
-                            <h6 class="text-center"><?php echo $error_msg; ?>
-                            </h6>
                             <div class="form-group">
                                 <label for="username" class="sr-only">Username</label>
                                 <input type="text" name="username" id="username" class="form-control"
-                                       placeholder="Enter Desired Username">
+                                       placeholder="Enter Desired Username"
+                                       value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>">
+                                <p><?php echo isset($validation_errors['username']) ? $validation_errors['username'] : ''; ?></p>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="sr-only">Email</label>
                                 <input type="email" name="email" id="email" class="form-control"
-                                       placeholder="somebody@example.com">
+                                       placeholder="somebody@example.com"
+                                       value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
+                                <p><?php echo isset($validation_errors['email']) ? $validation_errors['email'] : ''; ?></p>
+
                             </div>
                             <div class="form-group">
                                 <label for="password" class="sr-only">Password</label>
                                 <input type="password" name="password" id="key" class="form-control"
-                                       placeholder="Password">
+                                       placeholder="Password"
+                                       value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>">
+                                <p><?php echo isset($validation_errors['password']) ? $validation_errors['password'] : ''; ?></p>
                             </div>
                             <input type="submit" name="submit" id="btn-login"
                                    class="btn btn-custom btn-lg btn-block"
