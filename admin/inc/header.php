@@ -4,12 +4,8 @@ include "functions.php";
 
 ob_start();
 session_start();
-
-if (isset($_SESSION['role'])) {
-    if ($_SESSION['role'] !== 'admin') {
-        header("Location: ../index.php");
-    }
-}
+check_login();
+check_admin();
 ?>
 <!DOCTYPE html>
 <html lang="en">

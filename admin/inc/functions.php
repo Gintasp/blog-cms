@@ -106,3 +106,17 @@ function select_where($table, $field, $value)
     handle_query_error($query);
     return $query;
 }
+
+function check_login()
+{
+    if (!isset($_SESSION['username'])) {
+        header("Location: ../index.php");
+    }
+}
+
+function check_admin()
+{
+    if ($_SESSION['role'] !== 'admin') {
+        header("Location: ../index.php");
+    }
+}
