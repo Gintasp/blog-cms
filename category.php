@@ -20,7 +20,11 @@ include 'inc/navigation.php';
             </h1>
 
             <?php
-            $query = mysqli_query($connection, "SELECT * FROM post WHERE category_id={$category_id} ORDER BY date DESC");
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+                $query = mysqli_query($connection, "SELECT * FROM post WHERE category_id=$category_id");
+            } else {
+                $query = mysqli_query($connection, "SELECT * FROM post WHERE category_id=$category_id AND status='published'");
+            }
             handle_query_error($query);
             if (mysqli_num_rows($query) < 1) {
                 ?>
