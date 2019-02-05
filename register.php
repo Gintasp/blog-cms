@@ -5,11 +5,11 @@ include "inc/navigation.php";
 $error_msg = '';
 
 if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
+    $username = trim(escape($_POST['username']));
+    $password = trim(escape($_POST['password']));
+    $email = trim(escape($_POST['email']));
 
-    if (!empty($username) && !empty($password) && !empty($email)) {
+    if (!empty($username) && !empty($password) && !empty($email) && username_valid($username) && email_valid($email)) {
         $username = escape($username);
         $password = escape($password);
         $email = escape($email);
@@ -18,7 +18,11 @@ if (isset($_POST['submit'])) {
 
         $query = mysqli_query($connection, "INSERT INTO user(username,password,email,role) VALUES('{$username}','{$password}','{$email}','user')");
         handle_query_error($query);
-        $error_msg = 'Registered successfully.';
+        $error_msg = 'Registered successfully. You can now log in.';
+    } elseif (!username_valid($username)) {
+        $error_msg = 'Username already exists.';
+    } elseif (!email_valid($email)) {
+        $error_msg = 'Email already exists.';
     } else {
         $error_msg = 'Fields cannot be blank.';
     }

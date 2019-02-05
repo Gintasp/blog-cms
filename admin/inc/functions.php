@@ -120,3 +120,19 @@ function check_admin()
         header("Location: ../index.php");
     }
 }
+
+function username_valid($username)
+{
+    global $connection;
+    $query = mysqli_query($connection, "SELECT role FROM user WHERE username = '$username'");
+    handle_query_error($query);
+    return mysqli_num_rows($query) === 0;
+}
+
+function email_valid($email)
+{
+    global $connection;
+    $query = mysqli_query($connection, "SELECT email FROM user WHERE email = '$email'");
+    handle_query_error($query);
+    return mysqli_num_rows($query) === 0;
+}
