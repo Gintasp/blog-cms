@@ -107,13 +107,6 @@ function select_where($table, $field, $value)
     return $query;
 }
 
-function check_login()
-{
-    if (!isset($_SESSION['username'])) {
-        header("Location: ../index.php");
-    }
-}
-
 function check_admin()
 {
     if ($_SESSION['role'] !== 'admin') {
@@ -164,5 +157,22 @@ function login_user($username, $password)
         header("Location: /cms/admin/index.php");
     } else {
         header("Location: /cms/index.php");
+    }
+}
+
+function check_method($method = null)
+{
+    return $_SERVER['REQUEST_METHOD'] === strtoupper($method);
+}
+
+function is_logged_in()
+{
+    return isset($_SESSION['role']);
+}
+
+function check_login($redirect)
+{
+    if (!is_logged_in()) {
+        header("Location: " . $redirect);
     }
 }

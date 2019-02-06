@@ -4,7 +4,7 @@ include "functions.php";
 
 ob_start();
 session_start();
-check_login();
+check_login("../index.php");
 check_admin();
 ?>
 <!DOCTYPE html>
