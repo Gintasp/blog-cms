@@ -23,6 +23,7 @@ session_start();
                     $category_active = '';
                     $register_active = '';
                     $contact_active = '';
+                    $login_active = '';
                     $url = basename($_SERVER['PHP_SELF']);
                     if (isset($_GET['category']) && $_GET['category'] === $row['id']) {
                         $category_active = 'active';
@@ -30,12 +31,18 @@ session_start();
                         $register_active = 'active';
                     } elseif ($url === 'contact.php') {
                         $contact_active = 'active';
+                    } elseif ($url === 'login.php') {
+                        $login_active = 'active';
                     }
                     ?>
                     <li class="<?php echo $category_active; ?>">
                         <a href="category.php?category=<?php echo $row['id']; ?>"><?php echo $row['title']; ?></a>
                     </li>
-                <?php }
+                <?php } ?>
+                <li class="<?php echo $contact_active; ?>">
+                    <a href="contact.php">Contact Us</a>
+                </li>
+                <?php
                 if (isset($_SESSION['username'])) {
                     if ($_SESSION['role'] === 'admin') {
                         ?>
@@ -59,10 +66,10 @@ session_start();
                     <li class="<?php echo $register_active; ?>">
                         <a href="register.php">Register</a>
                     </li>
+                    <li class="<?php echo $login_active; ?>">
+                        <a href="login.php">Login</a>
+                    </li>
                 <?php } ?>
-                <li class="<?php echo $contact_active; ?>">
-                    <a href="contact.php">Contact Us</a>
-                </li>
             </ul>
         </div>
     </div>
