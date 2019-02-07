@@ -1,0 +1,20 @@
+{
+  "name": "gplon/cms",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gintautas Plonis",
+      "email": "gplonis@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "phpmailer/phpmailer": "^6.0"
+  },
+  "autoload": {
+    "classmap": [
+      "Classes"
+    ]
+  }
+}

@@ -35,8 +35,8 @@ if (check_method("post") && isset($_POST['username']) && isset($_POST['password'
                                             <input name="password" type="password" class="form-control"
                                                    placeholder="Enter Password">
                                         </div>
+                                        <a href="forgot.php?fid=<?php echo uniqid(true); ?>">Forgot password?</a>
                                     </div>
-
                                     <div class="form-group">
                                         <input name="login" class="btn btn-lg btn-primary btn-block" value="Login"
                                                type="submit">
