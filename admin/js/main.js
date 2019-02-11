@@ -26,4 +26,14 @@ $(document).ready(function () {
     setInterval(function () {
         loadUsersOnline();
     }, 500);
+
+    const pusher = new Pusher('14e73c5000f44feb0214', {
+        cluster: 'eu',
+        forceTLS: true
+    });
+
+    const channel = pusher.subscribe('notifications');
+    channel.bind('new-user', function (data) {
+        toastr.success(data.message + ' has just registered!');
+    });
 });

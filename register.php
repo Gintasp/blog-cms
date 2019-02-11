@@ -2,6 +2,16 @@
 include "inc/header.php";
 include "inc/navigation.php";
 
+require "vendor/autoload.php";
+
+$pusher = new Pusher\Pusher(
+    '14e73c5000f44feb0214',
+    '31df7c3467558e214833',
+    '711830',
+    ['cluster' => 'eu',
+        'useTLS' => true]);
+
+
 if (isset($_POST['submit'])) {
     $username = trim(escape($_POST['username']));
     $password = trim(escape($_POST['password']));
@@ -38,6 +48,8 @@ if (isset($_POST['submit'])) {
 
             $query = mysqli_query($connection, "INSERT INTO user(username,password,email,role) VALUES('{$username}','{$password_hash}','{$email}','user')");
             handle_query_error($query);
+
+            $pusher->trigger('notifications', 'new-user', ['message' => $username]);
 
             login_user($username, $password);
         }
