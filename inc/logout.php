@@ -7,4 +7,5 @@ $_SESSION['lastname'] = null;
 $_SESSION['role'] = null;
 $_POST['username'] = null;
 $_POST['password'] = null;
+$_SESSION['user_id'] = null;
 header("Location: ../index.php");

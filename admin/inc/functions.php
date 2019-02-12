@@ -176,3 +176,13 @@ function check_login($redirect)
         header("Location: " . $redirect);
     }
 }
+
+function already_liked($post_id = '')
+{
+    global $connection;
+    if (!isset($_SESSION['user_id'])) return false;
+    $query = mysqli_query($connection, "SELECT * FROM likes WHERE user_id={$_SESSION['user_id']} AND post_id=$post_id");
+    handle_query_error($query);
+
+    return mysqli_num_rows($query) == 1;
+}

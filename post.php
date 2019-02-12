@@ -5,21 +5,26 @@ include 'inc/navigation.php';
 if (isset($_POST['liked'])) {
     $liked_post_id = $_POST['post_id'];
     $liked_user_id = $_POST['user_id'];
-    $query = mysqli_query($connection, "UPDATE post SET likes=likes+1 WHERE id=$liked_post_id");
-    handle_query_error($query);
 
-    $query = mysqli_query($connection, "INSERT INTO likes(user_id,post_id) VALUES($liked_user_id,$liked_post_id)");
-    handle_query_error($query);
+    if (!already_liked($_GET['p_id']) && is_logged_in()) {
+        $query = mysqli_query($connection, "UPDATE post SET likes=likes+1 WHERE id=$liked_post_id");
+        handle_query_error($query);
+
+        $query = mysqli_query($connection, "INSERT INTO likes(user_id,post_id) VALUES($liked_user_id,$liked_post_id)");
+        handle_query_error($query);
+    }
 }
 
 if (isset($_POST['unliked'])) {
     $liked_post_id = $_POST['post_id'];
     $liked_user_id = $_POST['user_id'];
-    $query = mysqli_query($connection, "UPDATE post SET likes=likes-1 WHERE id=$liked_post_id");
-    handle_query_error($query);
+    if (already_liked($_GET['p_id']) && is_logged_in()) {
+        $query = mysqli_query($connection, "UPDATE post SET likes=likes-1 WHERE id=$liked_post_id");
+        handle_query_error($query);
 
-    $query = mysqli_query($connection, "DELETE FROM likes WHERE post_id=$liked_post_id AND user_id=$liked_user_id");
-    handle_query_error($query);
+        $query = mysqli_query($connection, "DELETE FROM likes WHERE post_id=$liked_post_id AND user_id=$liked_user_id");
+        handle_query_error($query);
+    }
 }
 ?>
 
@@ -56,14 +61,18 @@ if (isset($_POST['unliked'])) {
                 <hr>
                 <p><?php echo $row['content']; ?></p>
                 <hr>
-                <a style="margin-bottom: 10px;" href="" class="like-button btn btn-success"><i
-                            class="far fa-thumbs-up fa-2x"></i>
-                    Like</a>
+                <?php if (already_liked($_GET['p_id'])) { ?>
+                    <a style="margin-bottom: 10px;" href="" class="unlike-button btn btn-danger"><i
+                                class="far fa-thumbs-down fa-2x"></i>
+                        Unlike</a>
+                <?php } else { ?>
+                    <a style="margin-bottom: 10px;" href="" class="like-button btn btn-success"><i
+                                class="far fa-thumbs-up fa-2x"></i>
+                        Like</a>
+                <?php } ?>
                 <p style="margin-bottom: 15px;font-size: 1.1em">Likes: <span
                             class="likes-handle"><?php echo $likes; ?></span></p>
-                <a style="margin-bottom: 10px;" href="" class="unlike-button btn btn-danger"><i
-                            class="far fa-thumbs-down fa-2x"></i>
-                    Unlike</a>
+
             <?php }
             include 'inc/post_comments.php';
             ?>
@@ -76,18 +85,23 @@ if (isset($_POST['unliked'])) {
 <script>
     $(document).ready(function () {
         let postId =<?php echo $current_post_id;?>;
-        let userId =<?php if (isset($_SESSION['user_id'])) echo $_SESSION['user_id']; ?>;
+        let userId =<?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; ?>;
 
         $('.like-button').on('click', function (e) {
-            $.ajax({
-                url: '/cms/post.php?p_id=' + postId,
-                type: 'post',
-                data: {
-                    liked: 1,
-                    post_id: postId,
-                    user_id: userId
-                }
-            });
+            if (userId) {
+                $.ajax({
+                    url: '/cms/post.php?p_id=' + postId,
+                    type: 'post',
+                    data: {
+                        liked: 1,
+                        post_id: postId,
+                        user_id: userId
+                    }
+                });
+            } else {
+                e.preventDefault();
+                alert('Only logged in users can like posts!');
+            }
         });
 
         $('.unlike-button').on('click', function (e) {
