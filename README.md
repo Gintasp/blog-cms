@@ -1,6 +1,6 @@
 # Blog CMS
 
-Plain PHP Blog CMS using Bootsrap SB Admin theme. 
+Plain PHP Blog CMS using Bootstrap SB Admin theme. View [live](http://blog-cms.epizy.com/index.php).
 
 #### Features:
 * Admin dashboard
