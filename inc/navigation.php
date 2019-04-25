@@ -69,6 +69,10 @@ session_start();
                     <li class="<?php echo $login_active; ?>">
                         <a href="login.php">Login</a>
                     </li>
+                <?php }
+                if (isset($_SESSION['username'])) {
+                    ?>
+                    <li><a href="inc/logout.php">Logout</a></li>
                 <?php } ?>
             </ul>
         </div>
